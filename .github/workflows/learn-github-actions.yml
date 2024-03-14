@@ -1,0 +1,145 @@
+name: CodeQL Analysis on Push
+
+on:
+ push:
+    branches:
+      - master
+
+permissions:
+ security-events: write
+ contents: read
+ actions: read
+
+jobs:
+ build-and-analyze:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: csharp
+
+    - name: Build TestCaseSupport
+      run: msbuild testcasesupport/TestCaseSupport/TestCaseSupport.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE190_Integer_Overflow_s01
+      run: msbuild CWE190_Integer_Overflow\s01\CWE190_Integer_Overflow_s01.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE190_Integer_Overflow_s02
+      run: msbuild CWE190_Integer_Overflow\s02\CWE190_Integer_Overflow_s02.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE190_Integer_Overflow_s03
+      run: msbuild CWE190_Integer_Overflow\s03\CWE190_Integer_Overflow_s03.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE190_Integer_Overflow_s04
+      run: msbuild CWE190_Integer_Overflow\s04\CWE190_Integer_Overflow_s04.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE190_Integer_Overflow_s05
+      run: msbuild CWE190_Integer_Overflow\s05\CWE190_Integer_Overflow_s05.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE190_Integer_Overflow_s06
+      run: msbuild CWE190_Integer_Overflow\s06\CWE190_Integer_Overflow_s06.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE190_Integer_Overflow_s07
+      run: msbuild CWE190_Integer_Overflow\s07\CWE190_Integer_Overflow_s07.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE89_SQL_Injection_s01
+      run: msbuild CWE89_SQL_Injection\s01\CWE89_SQL_Injection_s01.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE89_SQL_Injection_s02
+      run: msbuild CWE89_SQL_Injection\s02\CWE89_SQL_Injection_s02.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE90_LDAP_Injection
+      run: msbuild CWE90_LDAP_Injection\CWE90_LDAP_Injection.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE94_Improper_Control_of_Generation_Of_Code
+      run: msbuild CWE94_Improper_Control_of_Generation_of_Code\CWE94_Improper_Control_of_Generation_of_Code.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE78_OS_Command_Injection
+      run: msbuild CWE78_OS_Command_Injection\CWE78_OS_Command_Injection.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+  
+    - name: Build CWE476_NULL_Pointer_Dereference
+      run: msbuild CWE476_NULL_Pointer_Dereference\CWE476_NULL_Pointer_Dereference.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+    
+    - name: Build CWE23_Relative_Path_Traversal
+      run: msbuild CWE23_Relative_Path_Traversal\CWE23_Relative_Path_Traversal.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE284_Improper_Access_Control
+      run: msbuild CWE284_Improper_Access_Control\CWE284_Improper_Access_Control.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE566_Authorization_Bypass_Through_SQL_Primary
+      run: msbuild CWE566_Authorization_Bypass_Through_SQL_Primary\CWE566_Authorization_Bypass_Through_SQL_Primary.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE601_Open_Redirect
+      run: msbuild CWE601_Open_Redirect\CWE601_Open_Redirect.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE113_HTTP_Response_Splitting_s01
+      run: msbuild CWE113_HTTP_Response_Splitting\s01\CWE113_HTTP_Response_Splitting_s01.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE113_HTTP_Response_Splitting_s02
+      run: msbuild CWE113_HTTP_Response_Splitting\s02\CWE113_HTTP_Response_Splitting_s02.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE261_Weak_Cryptography_for_Passwords
+      run: msbuild CWE261_Weak_Cryptography_for_Passwords\CWE261_Weak_Cryptography_for_Passwords.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+    
+    - name: Build CWE319_Cleartext_Tx_Sensitive_Info
+      run: msbuild CWE319_Cleartext_Tx_Sensitive_Info\CWE319_Cleartext_Tx_Sensitive_Info.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+    
+    - name: Build CWE325_Missing_Required_Cryptographic_Step
+      run: msbuild CWE325_Missing_Required_Cryptographic_Step\CWE325_Missing_Required_Cryptographic_Step.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+  
+    - name: Build CWE321_Hard_Coded_Cryptographic_Key
+      run: msbuild CWE321_Hard_Coded_Cryptographic_Key\CWE321_Hard_Coded_Cryptographic_Key.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE327_Use_Broken_Crypto
+      run: msbuild CWE327_Use_Broken_Crypto\CWE327_Use_Broken_Crypto.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE328_Reversible_One_Way_Hash
+      run: msbuild CWE328_Reversible_One_Way_Hash\CWE328_Reversible_One_Way_Hash.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE329_Not_Using_Random_IV_with_CBC_Mode
+      run: msbuild CWE329_Not_Using_Random_IV_with_CBC_Mode\CWE329_Not_Using_Random_IV_with_CBC_Mode.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE336_Same_Seed_in_PRNG
+      run: msbuild CWE336_Same_Seed_in_PRNG\CWE336_Same_Seed_in_PRNG.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE338_Weak_PRNG
+      run: msbuild CWE338_Weak_PRNG\CWE338_Weak_PRNG.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE523_Unprotected_Cred_Transport
+      run: msbuild CWE523_Unprotected_Cred_Transport\CWE523_Unprotected_Cred_Transport.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Build CWE759_Unsalted_One_Way_Hash
+      run: msbuild CWE759_Unsalted_One_Way_Hash\CWE759_Unsalted_One_Way_Hash.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+    
+    - name: Build CWE760_Predictable_Salt_One_Way_Hash
+      run: msbuild CWE760_Predictable_Salt_One_Way_Hash\CWE760_Predictable_Salt_One_Way_Hash.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: CWE80_XSS_s01
+      run: msbuild CWE80_XSS\s01\CWE80_XSS_s01.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+      
+    - name: CWE80_XSS_s02
+      run: msbuild CWE80_XSS\s02\CWE80_XSS_s02.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: CWE83_XSS_Attribute
+      run: msbuild CWE83_XSS_Attribute\CWE83_XSS_Attribute.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+ 
+    - name: CWE470_Unsafe_Reflection
+      run: msbuild CWE470_Unsafe_Reflection\CWE470_Unsafe_Reflection.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: CWE643_Xpath_Injection
+      run: msbuild CWE643_Xpath_Injection\CWE643_Xpath_Injection.csproj /p:Configuration=Debug /p:Platform=AnyCPU /p:UseSharedCompilation=false
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+
